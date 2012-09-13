@@ -2,34 +2,24 @@
 
 // Load the framework
 require 'Slim/Slim.php';
-
 \Slim\Slim::registerAutoloader();
 
-// New framework app.
-$app = new \Slim\Slim(array('debug' => true));
+// New framework app, add routes & run.
+$app = new \Slim\Slim(array('debug' => false));
 
-// Create the routes.
-$app->get('/posts/:timeframe/:id', 'getPosts');
+// $app->get('/posts/:timeframe/:id', 'getPosts');
+$app->get('/posts/before/:id', 'getPostsBefore');
+$app->get('/posts/after/:id', 'getPostsAfter');
 $app->post('/posts/new', 	'addPost');
 
-// Run the app.
 $app->run();
 
-// Returns a limited amount of posts based on id.
-function getPosts($timeframe, $id) {
+// Returns a limited amount of posts based on statement & id.
+function getPosts($sql, $id) {
 	try {
 		// Make sure that the ID we get really is an int.
 		if(!check_int($id)) {
 			throw new Exception('id should be integer!');
-		}
-
-		// Use the right SQL for the job + make sure no sql can be injected.
-		if($timeframe == "after") {
-			$sql = "SELECT * FROM posts WHERE id > :id ORDER BY id ASC LIMIT 10";
-		} elseif($timeframe == "before") {
-			$sql = "SELECT * FROM posts WHERE id < :id ORDER BY id DESC LIMIT 10";
-		} else {
-			throw new Exception('timeframe should be "before" or "after"!');
 		}
 
 		// Fetch objects from query;
@@ -45,6 +35,18 @@ function getPosts($timeframe, $id) {
 	} catch(Exception $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
+}
+
+// Get posts with an ID smaller then supplied ID
+function getPostsBefore($id) {
+	$sql = "SELECT * FROM posts WHERE id < :id ORDER BY id DESC LIMIT 10";
+	getPosts($sql, $id);
+}
+
+// Get posts with an ID larger then supplied ID
+function getPostsAfter($id) {
+	$sql = "SELECT * FROM posts WHERE id > :id ORDER BY id ASC LIMIT 10";
+	getPosts($sql, $id);
 }
 
 // Add a post.
@@ -68,12 +70,12 @@ function addPost() {
 		$stmt->execute();
 		$db = null;
 
-		// first make sure that firstid == int
+		// first make sure that firstid == int (firstid = first post on client)
 		if(!check_int($post->firstid)) {
 			throw new Exception('firstid must be int');
 		}
 		// after that return all posts after the first post on the client
-		getPosts('after', $post->firstid);
+		getPostsAfter($post->firstid);
 	} catch(Exception $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}

@@ -24,7 +24,7 @@
   			<div class="row">
   				<div class="span12">
   					<img src="img/logo.png" alt="logo image" id="logo">
-  					<h1 class="title">INFINITY</h1>
+  					<h1 class="title hidden-phone">INFINITY</h1>
   				</div>
   			</div>
   		</div>
@@ -38,7 +38,7 @@
   					<form action="./api/posts/new" id="pnew" method="post">
 							<div class="row">
 								<div class="span5">
-									<input type="text" name="pposter" class="pposter required" minlength="5" placeholder="Name">
+									<input type="text" name="pposter" class="pposter required" minlength="5" maxlength="30" placeholder="Name">
 								</div>
 							</div>
 							<div class="row">
@@ -46,8 +46,8 @@
 									<input type="text" name="pgravatar" class="pgravatar required email" placeholder="Email">
 								</div>
 							</div>
-  						<textarea name="pbody" cols="30" rows="10" class="pbody required" minlength="5" placeholder="Message"></textarea>
-  						<input type="submit" value="Submit post" class="psubmit btn btn-large btn-primary">
+  						<textarea name="pbody" cols="30" rows="10" class="pbody required" minlength="5" maxlength="2000" placeholder="Message"></textarea>
+							<input type="submit" value="Submit post" class="psubmit btn btn-large btn-primary pull-right">
   					</form>
   				</div>
   			</div>
@@ -76,8 +76,10 @@
 			<div class="span12">
 				<div class="post">
 					<div class="id">{{ id }}</div>
-					<h1 class="poster">{{ poster }}</h1>
-					<img src="http://www.gravatar.com/avatar/{{ gravatar }}" alt="gravatar image" class="gravatar">
+					<div class="clearfix">
+						<h1 class="poster pull-left">{{ poster }}</h1>
+						<img src="http://www.gravatar.com/avatar/{{ gravatar }}?s=40" alt="gravatar image" class="gravatar pull-right hidden-phone">
+					</div>
 					<p class="body">{{{ body }}}</p>
 					<h6 class="timestamp">{{ timestamp }}</h6>
 				</div>

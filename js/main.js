@@ -11,6 +11,8 @@
 
 			$('#loadmore').click(function(e) {
 				var lastId = $('.id:last').html();
+				posting.loader.show();
+				$(this).prop('disabled', true);
 				posting.load('before', lastId);
 			});
 		},
@@ -48,12 +50,11 @@
 
 		// load posts
 		load: function(timeframe, id) {
-			posting.loader.show();
 			$.getJSON('./api/posts/' + timeframe + '/' + id, function(posts) {
 				posting.render(posts, timeframe);
 
-				if(posts.length < 10 && timeframe == "before") {
-					$('#loadmore').prop('disabled', true);
+				if(posts.length == 10 && timeframe == "before") {
+					$('#loadmore').prop('disabled', false);
 				}
 			});
 		},
@@ -88,7 +89,9 @@
 			success: function(posts, textStatus, jqXHR) {
 				// render posts & enable button again.
 				posting.render(posts, "after");
-				$('#pnew .pbody').val("");
+				$('#pnew .pbody')
+					.removeClass('valid')
+					.val("");
 				$('#pnew .psubmit').prop('disabled', false);
 			},
 
