@@ -11,9 +11,13 @@
 
 			$('#loadmore').click(function(e) {
 				var lastId = $('.id:last').html();
-				posting.loader.show();
-				$(this).prop('disabled', true);
-				posting.load('before', lastId);
+				if (lastId != undefined) {
+					posting.loader.show();
+					$(this).prop('disabled', true);
+					posting.load('before', lastId);
+				} else {
+					$(this).prop('disabled', true);
+				}
 			});
 		},
 
@@ -27,14 +31,17 @@
 				}
 			}
 
-			posting.loader.hide();
 			clearTimeout(posting.updateTimeout);
 			posting.updateTimeout = setTimeout(posting.update, posting.updateInterval);
 		},
 
 		// Update posts every x seconds
 		update: function() {
-			posting.load('after', $('.id:first').html());
+			var firstId = $('.id:first').html();
+			if(firstId == undefined) {
+				firstId = 0;
+			}
+			posting.load('after', firstId);
 		},
 
 		// Loader moving gif show & hide
@@ -52,6 +59,7 @@
 		load: function(timeframe, id) {
 			$.getJSON('./api/posts/' + timeframe + '/' + id, function(posts) {
 				posting.render(posts, timeframe);
+				posting.loader.hide();
 
 				if(posts.length == 10 && timeframe == "before") {
 					$('#loadmore').prop('disabled', false);
@@ -77,11 +85,15 @@
 
 			// parse json out of form data
 			json: function() {
+				var firstId = $('.id:first').html();
+				if (firstId == undefined) {
+					firstId = 0;
+				}
 				return JSON.stringify({
 					"poster": $('#pnew .pposter').val(),
 					"body": $('#pnew .pbody').val(),
 					"gravatar": $('#pnew .pgravatar').val(),
-					"firstid": $('.id:first').html()
+					"firstid": firstId
 				});
 			},
 
@@ -89,6 +101,7 @@
 			success: function(posts, textStatus, jqXHR) {
 				// render posts & enable button again.
 				posting.render(posts, "after");
+				posting.loader.hide();
 				$('#pnew .pbody')
 					.removeClass('valid')
 					.val("");
