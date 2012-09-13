@@ -6,17 +6,8 @@ body {
 
 /*header*/
 .header {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	z-index: 3;
 	border-top: 6px solid #006DCC;
 	background: url('../img/dark_wall.png');
-
-	-webkit-box-shadow: 0px 0px 20px rgba(50, 50, 50, 0.5);
-	-moz-box-shadow:    0px 0px 20px rgba(50, 50, 50, 0.5);
-	box-shadow:         0px 0px 20px rgba(50, 50, 50, 0.5);
 }
 
 #logo {
@@ -154,6 +145,18 @@ label.error {
 	.form {
 		padding: 10px 40px;
 	}
+
+	.header {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		z-index: 3;
+
+		-webkit-box-shadow: 0px 0px 20px rgba(50, 50, 50, 0.5);
+		-moz-box-shadow:    0px 0px 20px rgba(50, 50, 50, 0.5);
+		box-shadow:         0px 0px 20px rgba(50, 50, 50, 0.5);
+	}
 }
 
 /*tablets*/
@@ -161,6 +164,18 @@ label.error {
 	.post,
 	.form {
 		padding: 10px 30px;
+	}
+
+	.header {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		z-index: 3;
+
+		-webkit-box-shadow: 0px 0px 20px rgba(50, 50, 50, 0.5);
+		-moz-box-shadow:    0px 0px 20px rgba(50, 50, 50, 0.5);
+		box-shadow:         0px 0px 20px rgba(50, 50, 50, 0.5);
 	}
 }
 
@@ -175,4 +190,12 @@ label.error {
 	.form {
 		padding: 10px 20px;
 	}
+
+	.header {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		z-index: 3;
+	}	
 }
