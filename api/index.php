@@ -1,5 +1,23 @@
 <?php
 
+/*
+ *	The infinity slowchat.
+ *
+ *	Rendering takes part in the frontend by using mustache templates and a simple
+ *	wrapper for those templates called ICANHAZ.js
+ *
+ *	The php backend uses the slim framework to communicate the data over json to
+ *	the frontend.
+ *
+ *	I chose for frontend rendering because i wanted to make a responsive site that
+ *	would also feel fast on a phone, therefore i did not want to send huge amounts 
+ *	of data.
+ *
+ *	Kind regards,
+ *	Spunge
+ *
+ */
+
 // Load the framework
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
@@ -92,10 +110,10 @@ function check_int($var) {
 
 // Function to initiate DB connection
 function getConnection() {
-	$dbhost = "127.0.0.1";
-	$dbuser = "root";
-	$dbpass = "gentle66";
-	$dbname = "infinity";
+	$dbhost = "";
+	$dbuser = "";
+	$dbpass = "";
+	$dbname = "";
 	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $dbh;
