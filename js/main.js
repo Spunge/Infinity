@@ -1,6 +1,6 @@
 (function(window,document,undefined) {
 
-	var posting = {
+	let posting = {
 		updateInterval: 10000,
 		updateTimeout: null,
 
